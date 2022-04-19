@@ -39,7 +39,6 @@ public class SimpleUtils {
                 .orElse(null);
 
     }
-
     /**
      * Flattens a map to a sequence of <code>String</code>s, where each element in
      * the list is formatted
