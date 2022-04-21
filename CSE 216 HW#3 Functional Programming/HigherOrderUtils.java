@@ -105,12 +105,14 @@ public class HigherOrderUtils {
         List<Double> numbers = Arrays.asList(-0.5, 2d, 3d, 0d, 4d); // documentation example
         List<NamedBiFunction<Double, Double, Double>> operations = Arrays.asList(add, multiply, add, divide);
         Double d = zip(numbers, operations); // expected correct value: 1.125
+        System.out.println(numbers);
         System.out.println(d);
         // different use case, not with NamedBiFunction objects
         List<String> strings = Arrays.asList("a", "n", "t");
         // note the syntax of this lambda expression
         BiFunction<String, String, String> concat = (s, t) -> s + t;
         String s = zip(strings, Arrays.asList(concat, concat)); // expected correct value: "ant"
+        System.out.println(strings);
         System.out.println(s);
     }
 
