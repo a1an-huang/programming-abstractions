@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
@@ -88,10 +92,43 @@ public class BijectionGroup {
         }
     }
 
-    public static <T> Set<UnaryOperator<T>> bijectionOf(Set<T> domain) {
-
+    public static <T> ArrayList<ArrayList<T>> permutation(ArrayList<T> values) {
+        ArrayList<ArrayList<T>> perms = new ArrayList<>();
+        if (values.isEmpty()) {
+            perms.add(new ArrayList<>());
+            return perms;
+        }
+        T first = values.remove(0);
+        ArrayList<ArrayList<T>> permutations = permutation(values);
+        for (ArrayList<T> permutated : permutations) {
+            for (int i = 0; i <= permutated.size(); i++) {
+                ArrayList<T> newPerm = new ArrayList<>(permutated);
+                newPerm.add(i, first);
+                perms.add(newPerm);
+            }
+        }
+        return perms;
     }
 
+    public static <T> Set<UnaryOperator<T>> bijectionOf(Set<T> domain) {
+        Set<UnaryOperator<T>> bijections = new HashSet<>();
+        ArrayList<T> values = new ArrayList<>();
+        values.addAll(domain);
+        ArrayList<ArrayList<T>> perms = permutation(values);
+        values.addAll(domain);
+        for (ArrayList<T> perm : perms) {
+            HashMap<T, T> map = new HashMap<>();
+            for (int i = 0; i < perm.size(); i++) {
+                map.put(perm.get(i), values.get(i));
+            }
+            bijections.add(t -> map.get(t));
+        }
+        return bijections;
+    }
+
+    public static void bijectionGroup(){
+        
+    }
     public static void main(String... args) {
         Set<Integer> a_few = Stream.of(1, 2, 3).collect(Collectors.toSet());
         // you have to figure out the data type in the line below
