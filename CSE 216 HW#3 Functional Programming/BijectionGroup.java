@@ -49,6 +49,8 @@ public class BijectionGroup<T> {
 
     public static <T> Group<UnaryOperator<T>> bijectionGroup(Set<T> domain) {
         Group<UnaryOperator<T>> group = new Group<UnaryOperator<T>>() {
+            Set<UnaryOperator<T>> bijections = bijectionsOf(domain);
+
             @Override
             public UnaryOperator<T> binaryOperation(UnaryOperator<T> one, UnaryOperator<T> other) {
                 return (UnaryOperator<T>) one.andThen(other);
@@ -60,10 +62,19 @@ public class BijectionGroup<T> {
             }
 
             @Override
-            public UnaryOperator<T> inverseOf(Set<UnaryOperator<T>> f1) {
-                for (UnaryOperator<T> f : f1) {
-
+            public UnaryOperator<T> inverseOf(UnaryOperator<T> f) {
+                for (UnaryOperator<T> bijection : bijections) {
+                    int counter = 0;
+                    for (T t : domain) {
+                        if (bijection.apply(t).equals(f.apply(t))) {
+                            counter++;
+                        }
+                    }
+                    if (counter == domain.size()) {
+                        return bijection;
+                    }
                 }
+                return null;
             }
         };
 
@@ -83,5 +94,12 @@ public class BijectionGroup<T> {
         UnaryOperator<Integer> f1 = bijectionsOf(a_few).stream().findFirst().get();
         UnaryOperator<Integer> f2 = g.inverseOf(f1);
         UnaryOperator<Integer> id = g.identity();
+
+        System.out.println("f1: ");
+        a_few.forEach(n -> System.out.printf("%d --> %d; ", n, f1.apply(n)));
+        System.out.println("inverse: ");
+        a_few.forEach(n -> System.out.printf("%d --> %d; ", n, f2.apply(n)));
+        System.out.println("identity: ");
+        a_few.forEach(n -> System.out.printf("%d --> %d; ", n, id.apply(n)));
     }
 }

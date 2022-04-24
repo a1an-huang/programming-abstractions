@@ -1,6 +1,3 @@
-import java.util.Set;
-import java.util.function.UnaryOperator;
-
 public interface Group<T> {
     /**
      * Performs the binary operation, as defined by the group, of one object with
@@ -56,7 +53,7 @@ public interface Group<T> {
      *
      * @return the inverse of this object.
      */
-    T inverseOf(Set<UnaryOperator<Integer>> f1);
+    T inverseOf(T f);
 
     /**
      * This is a utility function, serving as the definition of exponentiation for
