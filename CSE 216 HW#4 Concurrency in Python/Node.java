@@ -7,6 +7,11 @@ public class Node<T> {
     private Node<T> left;
     private Node<T> right;
 
+    /**
+     * Constructor for the Node class
+     * 
+     * @param data
+     */
     public Node(T data) {
         this.data = data;
         this.left = null;

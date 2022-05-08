@@ -8,16 +8,29 @@ public class BinarySearchTree<T extends Comparable<T>> implements Iterable<T> {
     String name;
     Node<T> root;
 
+    /**
+     * Constructor for the BinarySearchTree class
+     */
     public BinarySearchTree(String name) {
         this.name = name;
     }
 
+    /**
+     * Constructs a BinarySearchTree with a List of values
+     * 
+     * @param lst
+     */
     public void addAll(List<T> lst) {
         for (T val : lst) {
             insert(val);
         }
     }
 
+    /**
+     * insert method for constructing a BinarySearchTree
+     * 
+     * @param val
+     */
     public void insert(T val) {
         Node<T> newNode = new Node<T>(val);
         if (root == null) {
@@ -41,16 +54,29 @@ public class BinarySearchTree<T extends Comparable<T>> implements Iterable<T> {
             prev.setRight(newNode);
     }
 
+    /**
+     * Iterator class for the BinarySearchTree
+     */
     class BstIterator implements Iterator<T> {
 
         Stack<Node<T>> stack;
 
+        /**
+         * Constructor for the BstIterator class
+         * 
+         * @param root
+         */
         public BstIterator(Node<T> root) {
             stack = new Stack<Node<T>>();
 
             leftNode(root);
         }
 
+        /**
+         * adding the vals from the Binary Search Tree to the stack
+         * 
+         * @param root
+         */
         private void leftNode(Node<T> root) {
             while (root != null) {
                 stack.push(root);
@@ -58,11 +84,17 @@ public class BinarySearchTree<T extends Comparable<T>> implements Iterable<T> {
             }
         }
 
+        /**
+         * Checks if there is a next value in the BinarySearchTree
+         */
         @Override
         public boolean hasNext() {
             return stack.size() > 0;
         }
 
+        /**
+         * Returns the next value in the BinarySearchTree
+         */
         @Override
         public T next() {
             Node<T> top = stack.pop();
@@ -75,11 +107,21 @@ public class BinarySearchTree<T extends Comparable<T>> implements Iterable<T> {
 
     }
 
+    /**
+     * Overrides Iterator method with new cusrom BsrIterator
+     */
     @Override
     public Iterator<T> iterator() {
         return new BstIterator(root);
     }
 
+    /**
+     * merges lists of BinarySearchTree into one list utilizing threads
+     * 
+     * @param <T>
+     * @param bstlist
+     * @return
+     */
     public static <T extends Comparable<T>> List<T> merge(List<BinarySearchTree<T>> bstlist) {
         List<T> lst = new ArrayList<T>();
         for (BinarySearchTree<T> bst : bstlist) {
@@ -126,11 +168,21 @@ public class BinarySearchTree<T extends Comparable<T>> implements Iterable<T> {
         System.out.println(merge(Arrays.asList(t1, t2)));
     }
 
+    /**
+     * Prints the BinarySearchTree
+     */
     public String toString() {
         return "[" + this.name + "] " + root.getData() + " " + stringHelper(root.getLeft(), true) + " "
                 + stringHelper(root.getRight(), false);
     }
 
+    /**
+     * Helper method for toString
+     * 
+     * @param root
+     * @param isLeft
+     * @return
+     */
     public String stringHelper(Node<T> root, boolean isLeft) {
         if (root == null) {
             return "";
